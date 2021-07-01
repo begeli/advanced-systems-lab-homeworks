@@ -1,0 +1,1 @@
+Scalar Product optimized implementation speedup: 1.7

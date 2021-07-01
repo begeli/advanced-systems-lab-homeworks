@@ -1,0 +1,1 @@
+Speedup over standard C optimized version: 3.568
