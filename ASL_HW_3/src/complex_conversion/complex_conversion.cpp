@@ -12,8 +12,6 @@ void slow_performance1(double *x, double* re, double* im, int N) {
   }
 }
 
-
-
 void slow_performance2(double *x, double* re, double* im, int N) {
   int k = 0;
   __m256d xv1;
