@@ -76,7 +76,7 @@ void slow_performance6(double *x, double* h, double* y, int N, int M) {
     xVec6 = _mm256_load_pd(x + i + 6);
     xVec6 = _mm256_and_pd(xVec6, maskAbs);
     
-    // No idea what I am doin here... But judging by the fact that I did not do this in the other versions suggest that this didn't work.
+    // No idea what I am doin here... But judging by the fact that I did not do this in the other versions suggests that this didn't work.
     xVec1 = _mm256_blend_pd(xVec0, xVec4, 1);
     xVec1 = _mm256_permute4x64_pd(xVec1, 57);
     xVec2 = _mm256_blend_pd(xVec0, xVec4, 3);
