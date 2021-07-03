@@ -50,14 +50,17 @@ void slow_performance3(vector_t x, vector_t y, vector_t z, int n) {
     
     fabCmp = _mm256_cmp_pd(mxValv, myValv, _CMP_GT_OQ); 
     
+    // If fabs(x.val[i]) > fabs(y.val[i])
     xAnd = _mm256_and_pd(xValv, fabCmp); 
     yFabAdd = _mm256_and_pd(myValv, fabCmp); 
     xIdv = _mm256_castpd_si256(_mm256_and_pd(_mm256_castsi256_pd(xIdv), fabCmp)); 
     
+    // If fabs(x.val[i]) <= fabs(y.val[i])
     yAndNot = _mm256_andnot_pd(fabCmp, yValv); 
     xFabAdd = _mm256_andnot_pd(fabCmp, mxValv); 
     yIdv = _mm256_castpd_si256(_mm256_andnot_pd(fabCmp, _mm256_castsi256_pd(yIdv))); 
     
+    // Combine Everything
     idNotEqRes = _mm256_or_pd(xAnd, yAndNot);
     newAddVals = _mm256_or_pd(xFabAdd, yFabAdd);
     zIdv = _mm256_castpd_si256(_mm256_or_pd(_mm256_castsi256_pd(xIdv), _mm256_castsi256_pd(yIdv)));
@@ -67,6 +70,7 @@ void slow_performance3(vector_t x, vector_t y, vector_t z, int n) {
     newAddVals = _mm256_andnot_pd(idCmp, newAddVals);
     totSum = _mm256_add_pd(totSum, newAddVals);
     
+    // Store results
     _mm256_store_pd(z.val + i, _mm256_or_pd(idEqRes, idNotEqRes));
     _mm256_store_si256((__m256i *)(z.id + i), zIdv);
   }
@@ -156,14 +160,17 @@ void slow_performance4(vector_t x, vector_t y, vector_t z, int n) {
     
     fabCmp = _mm256_cmp_pd(mxValv, myValv, _CMP_GT_OQ); 
     
+    // If fabs(x.val[i]) > fabs(y.val[i])
     xAnd = _mm256_and_pd(xValv, fabCmp); 
     yFabAdd = _mm256_and_pd(myValv, fabCmp); 
     xIdv = _mm256_castpd_si256(_mm256_and_pd(_mm256_castsi256_pd(xIdv), fabCmp)); 
     
+    // If fabs(x.val[i]) <= fabs(y.val[i])
     yAndNot = _mm256_andnot_pd(fabCmp, yValv); 
     xFabAdd = _mm256_andnot_pd(fabCmp, mxValv); 
     yIdv = _mm256_castpd_si256(_mm256_andnot_pd(fabCmp, _mm256_castsi256_pd(yIdv))); 
     
+    // Combine Everything
     idNotEqRes = _mm256_or_pd(xAnd, yAndNot);
     newAddVals = _mm256_or_pd(xFabAdd, yFabAdd);
     zIdv = _mm256_castpd_si256(_mm256_or_pd(_mm256_castsi256_pd(xIdv), _mm256_castsi256_pd(yIdv)));
@@ -173,6 +180,7 @@ void slow_performance4(vector_t x, vector_t y, vector_t z, int n) {
     newAddVals = _mm256_andnot_pd(idCmp, newAddVals);
     totSum = _mm256_add_pd(totSum, newAddVals);
     
+    // Store results
     _mm256_store_pd(z.val + i, _mm256_or_pd(idEqRes, idNotEqRes));
     _mm256_store_si256((__m256i *)(z.id + i), zIdv);
     
@@ -192,14 +200,17 @@ void slow_performance4(vector_t x, vector_t y, vector_t z, int n) {
     
     fabCmp2 = _mm256_cmp_pd(mxValv2, myValv2, _CMP_GT_OQ); 
     
+    // If fabs(x.val[i]) > fabs(y.val[i])
     xAnd2 = _mm256_and_pd(xValv2, fabCmp2); 
     yFabAdd2 = _mm256_and_pd(myValv2, fabCmp2); 
     xIdv2 = _mm256_castpd_si256(_mm256_and_pd(_mm256_castsi256_pd(xIdv2), fabCmp2)); 
     
+    // If fabs(x.val[i]) <= fabs(y.val[i])
     yAndNot2 = _mm256_andnot_pd(fabCmp2, yValv2); 
     xFabAdd2 = _mm256_andnot_pd(fabCmp2, mxValv2); 
     yIdv2 = _mm256_castpd_si256(_mm256_andnot_pd(fabCmp2, _mm256_castsi256_pd(yIdv2))); 
     
+    // Combine Everything
     idNotEqRes2 = _mm256_or_pd(xAnd2, yAndNot2);
     newAddVals2 = _mm256_or_pd(xFabAdd2, yFabAdd2);
     zIdv2 = _mm256_castpd_si256(_mm256_or_pd(_mm256_castsi256_pd(xIdv2), _mm256_castsi256_pd(yIdv2)));
@@ -209,6 +220,7 @@ void slow_performance4(vector_t x, vector_t y, vector_t z, int n) {
     newAddVals2 = _mm256_andnot_pd(idCmp2, newAddVals2);
     totSum2 = _mm256_add_pd(totSum2, newAddVals2);
     
+    // Store results
     _mm256_store_pd(z.val + i + 4, _mm256_or_pd(idEqRes2, idNotEqRes2));
     _mm256_store_si256((__m256i *)(z.id + i + 4), zIdv2);
     
@@ -228,14 +240,17 @@ void slow_performance4(vector_t x, vector_t y, vector_t z, int n) {
     
     fabCmp3 = _mm256_cmp_pd(mxValv3, myValv3, _CMP_GT_OQ); 
     
+    // If fabs(x.val[i]) > fabs(y.val[i])
     xAnd3 = _mm256_and_pd(xValv3, fabCmp3); 
     yFabAdd3 = _mm256_and_pd(myValv3, fabCmp3); 
     xIdv3 = _mm256_castpd_si256(_mm256_and_pd(_mm256_castsi256_pd(xIdv3), fabCmp3)); 
     
+    // If fabs(x.val[i]) <= fabs(y.val[i])
     yAndNot3 = _mm256_andnot_pd(fabCmp3, yValv3); 
     xFabAdd3 = _mm256_andnot_pd(fabCmp3, mxValv3); 
     yIdv3 = _mm256_castpd_si256(_mm256_andnot_pd(fabCmp3, _mm256_castsi256_pd(yIdv3))); 
     
+    // Combine Everything
     idNotEqRes3 = _mm256_or_pd(xAnd3, yAndNot3);
     newAddVals3 = _mm256_or_pd(xFabAdd3, yFabAdd3);
     zIdv3 = _mm256_castpd_si256(_mm256_or_pd(_mm256_castsi256_pd(xIdv3), _mm256_castsi256_pd(yIdv3)));
@@ -245,6 +260,7 @@ void slow_performance4(vector_t x, vector_t y, vector_t z, int n) {
     newAddVals3 = _mm256_andnot_pd(idCmp3, newAddVals3);
     totSum3 = _mm256_add_pd(totSum3, newAddVals3);
     
+    // Store results
     _mm256_store_pd(z.val + i + 8, _mm256_or_pd(idEqRes3, idNotEqRes3));
     _mm256_store_si256((__m256i *)(z.id + i + 8), zIdv3);
     
@@ -264,14 +280,17 @@ void slow_performance4(vector_t x, vector_t y, vector_t z, int n) {
     
     fabCmp4 = _mm256_cmp_pd(mxValv4, myValv4, _CMP_GT_OQ); 
     
+    // If fabs(x.val[i]) > fabs(y.val[i])
     xAnd4 = _mm256_and_pd(xValv4, fabCmp4); 
     yFabAdd4 = _mm256_and_pd(myValv4, fabCmp4); 
     xIdv4 = _mm256_castpd_si256(_mm256_and_pd(_mm256_castsi256_pd(xIdv4), fabCmp4)); 
     
+    // If fabs(x.val[i]) <= fabs(y.val[i])
     yAndNot4 = _mm256_andnot_pd(fabCmp4, yValv4); 
     xFabAdd4 = _mm256_andnot_pd(fabCmp4, mxValv4); 
     yIdv4 = _mm256_castpd_si256(_mm256_andnot_pd(fabCmp4, _mm256_castsi256_pd(yIdv4))); 
     
+    // Combine Everything
     idNotEqRes4 = _mm256_or_pd(xAnd4, yAndNot4);
     newAddVals4 = _mm256_or_pd(xFabAdd4, yFabAdd4);
     zIdv4 = _mm256_castpd_si256(_mm256_or_pd(_mm256_castsi256_pd(xIdv4), _mm256_castsi256_pd(yIdv4)));
@@ -281,6 +300,7 @@ void slow_performance4(vector_t x, vector_t y, vector_t z, int n) {
     newAddVals4 = _mm256_andnot_pd(idCmp4, newAddVals4);
     totSum4 = _mm256_add_pd(totSum4, newAddVals4);
     
+    // Store results
     _mm256_store_pd(z.val + i + 12, _mm256_or_pd(idEqRes4, idNotEqRes4));
     _mm256_store_si256((__m256i *)(z.id + i + 12), zIdv4);
   }
@@ -379,6 +399,7 @@ void maxperformance(vector_t x, vector_t y, vector_t z, int n) {
     xIdv = _mm256_castpd_si256(_mm256_and_pd(_mm256_castsi256_pd(xIdv), fabCmp)); 
     yIdv = _mm256_castpd_si256(_mm256_andnot_pd(fabCmp, _mm256_castsi256_pd(yIdv))); 
     
+    // Combine Everything
     idNotEqRes = _mm256_blendv_pd(yValv, xValv, fabCmp);
     newAddVals = _mm256_blendv_pd(mxValv, myValv, fabCmp);
     zIdv = _mm256_castpd_si256(_mm256_or_pd(_mm256_castsi256_pd(xIdv), _mm256_castsi256_pd(yIdv)));
@@ -408,6 +429,7 @@ void maxperformance(vector_t x, vector_t y, vector_t z, int n) {
     xIdv2 = _mm256_castpd_si256(_mm256_and_pd(_mm256_castsi256_pd(xIdv2), fabCmp2)); 
     yIdv2 = _mm256_castpd_si256(_mm256_andnot_pd(fabCmp2, _mm256_castsi256_pd(yIdv2))); 
     
+    // Combine Everything
     idNotEqRes2 = _mm256_blendv_pd(yValv2, xValv2, fabCmp2);
     newAddVals2 = _mm256_blendv_pd(mxValv2, myValv2, fabCmp2);
     zIdv2 = _mm256_castpd_si256(_mm256_or_pd(_mm256_castsi256_pd(xIdv2), _mm256_castsi256_pd(yIdv2)));
@@ -415,6 +437,7 @@ void maxperformance(vector_t x, vector_t y, vector_t z, int n) {
     newAddVals2 = _mm256_andnot_pd(idCmp2, newAddVals2);
     totSum2 = _mm256_add_pd(totSum2, newAddVals2);
     
+    // Store results
     _mm256_store_pd(z.val + i + 4, _mm256_blendv_pd(idNotEqRes2, idEqRes2, idCmp2));
     _mm256_store_si256((__m256i *)(z.id + i + 4), zIdv2);
     
@@ -437,6 +460,7 @@ void maxperformance(vector_t x, vector_t y, vector_t z, int n) {
     xIdv3 = _mm256_castpd_si256(_mm256_and_pd(_mm256_castsi256_pd(xIdv3), fabCmp3)); 
     yIdv3 = _mm256_castpd_si256(_mm256_andnot_pd(fabCmp3, _mm256_castsi256_pd(yIdv3))); 
     
+    // Combine Everything
     idNotEqRes3 = _mm256_blendv_pd(yValv3, xValv3, fabCmp3);
     newAddVals3 = _mm256_blendv_pd(mxValv3, myValv3, fabCmp3);
     zIdv3 = _mm256_castpd_si256(_mm256_or_pd(_mm256_castsi256_pd(xIdv3), _mm256_castsi256_pd(yIdv3)));
@@ -444,6 +468,7 @@ void maxperformance(vector_t x, vector_t y, vector_t z, int n) {
     newAddVals3 = _mm256_andnot_pd(idCmp3, newAddVals3);
     totSum3 = _mm256_add_pd(totSum3, newAddVals3);
     
+    // Store results
     _mm256_store_pd(z.val + i + 8, _mm256_blendv_pd(idNotEqRes3, idEqRes3, idCmp3));
     _mm256_store_si256((__m256i *)(z.id + i + 8), zIdv3);
     
@@ -463,14 +488,17 @@ void maxperformance(vector_t x, vector_t y, vector_t z, int n) {
     
     fabCmp4 = _mm256_cmp_pd(mxValv4, myValv4, _CMP_GT_OQ); 
     
+    // If fabs(x.val[i]) > fabs(y.val[i])
     xAnd4 = _mm256_and_pd(xValv4, fabCmp4); 
     yFabAdd4 = _mm256_and_pd(myValv4, fabCmp4); 
     xIdv4 = _mm256_castpd_si256(_mm256_and_pd(_mm256_castsi256_pd(xIdv4), fabCmp4)); 
     
+    // If fabs(x.val[i]) <= fabs(y.val[i])
     yAndNot4 = _mm256_andnot_pd(fabCmp4, yValv4); 
     xFabAdd4 = _mm256_andnot_pd(fabCmp4, mxValv4); 
     yIdv4 = _mm256_castpd_si256(_mm256_andnot_pd(fabCmp4, _mm256_castsi256_pd(yIdv4)));
     
+    // Combine Everything
     idNotEqRes4 = _mm256_or_pd(xAnd4, yAndNot4);
     newAddVals4 = _mm256_or_pd(xFabAdd4, yFabAdd4);
     zIdv4 = _mm256_castpd_si256(_mm256_or_pd(_mm256_castsi256_pd(xIdv4), _mm256_castsi256_pd(yIdv4)));
@@ -480,6 +508,7 @@ void maxperformance(vector_t x, vector_t y, vector_t z, int n) {
     newAddVals4 = _mm256_andnot_pd(idCmp4, newAddVals4);
     totSum4 = _mm256_add_pd(totSum4, newAddVals4);
     
+    // Store results
     _mm256_store_pd(z.val + i + 12, _mm256_or_pd(idEqRes4, idNotEqRes4));
     _mm256_store_si256((__m256i *)(z.id + i + 12), zIdv4);
   }
