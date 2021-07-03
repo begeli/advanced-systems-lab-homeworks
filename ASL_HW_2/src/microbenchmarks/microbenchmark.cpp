@@ -16,7 +16,7 @@
 #define EMPIRICAL_DIVISION_LATENCY 14.0
 
 double* array, *divArr, *fooArr;
-double sum, sum0, sum1, sum2, sum3, sum4, sum5, sum6, sum7, sum8, sum9, sum10, sum11, sum12, sum13, sum14, sum15;
+double sum, sum0, sum1, sum2, sum3, sum4, sum5, sum6, sum7;
 double div0, div1, div2, div3, div4, div5, div6, div7;
 double foo0, foo1, foo2, foo3, foo4, foo5, foo6, foo7;
 double divRes, fooRes;
