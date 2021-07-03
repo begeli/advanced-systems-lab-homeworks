@@ -15,7 +15,6 @@ void slow_performance1(double *x, double* re, double* im, int N) {
 
 
 void slow_performance2(double *x, double* re, double* im, int N) {
-  /* Optimize here */
   int k = 0;
   __m256d xv1;
   __m256d xv2;
@@ -42,9 +41,7 @@ void slow_performance2(double *x, double* re, double* im, int N) {
 
 
 void maxperformance(double *x, double* re, double* im, int N) {
-  /* This is the most optimized version. */
   int k = 0;
-  //int limit = N - 3;
   int i;
   __m256d xv1;
   __m256d xv2;
