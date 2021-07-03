@@ -153,7 +153,6 @@ void initialize_microbenchmark_data (microbenchmark_mode_t mode) {
           initArray();
           break;
         case ADD_GAP:
-          //sum = 0.0;
           sum0 = 0.0;
           sum1 = 0.0;
           sum2 = 0.0;
@@ -230,7 +229,6 @@ void initialize_microbenchmark_data (microbenchmark_mode_t mode) {
 
 
 double microbenchmark_get_add_latency() {
-    /* Implement your microbenchmark benchmark here */
     double cycles = 0.0;
     long num_runs = 1;
     double multiplier = 1;
@@ -268,7 +266,6 @@ double microbenchmark_get_add_latency() {
 }
 
 double microbenchmark_get_add_gap() {
-    /* Implement your microbenchmark benchmark here */
     double cycles = 0.0;
     long num_runs = 1;
     double multiplier = 1;
@@ -279,14 +276,16 @@ double microbenchmark_get_add_gap() {
         start = start_tsc();
         for (int i = 0; i < num_runs; ++i) {
             addition_gap();
+            
+            // Reset values
             sum0 = 0.0;
             sum1 = 0.0;
             sum2 = 0.0;
             sum3 = 0.0;
-            /*sum4 = 0.0;
+            sum4 = 0.0;
             sum5 = 0.0;
             sum6 = 0.0;
-            sum7 = 0.0;*/
+            sum7 = 0.0;
         }
         cycles = stop_tsc(start);
 
@@ -301,22 +300,16 @@ double microbenchmark_get_add_gap() {
       start = start_tsc();
       for (int i = 0; i < num_runs; ++i) {
           addition_gap();
+          
+          // Reset values
           sum0 = 0.0;
           sum1 = 0.0;
           sum2 = 0.0;
           sum3 = 0.0;
-          /* = 0.0;
+          sum4 = 0.0;
           sum5 = 0.0;
           sum6 = 0.0;
-          sum7 = 0.0;*/
-          /*sum8 = 0.0;
-          sum9 = 0.0;
-          sum10 = 0.0;
-          sum11 = 0.0;
-          sum12 = 0.0;
-          sum13 = 0.0;
-          sum14 = 0.0;
-          sum15 = 0.0;*/
+          sum7 = 0.0;
       }
       end = stop_tsc(start);
       cycles = ((double)end) / (num_runs);
@@ -329,7 +322,6 @@ double microbenchmark_get_add_gap() {
   }
 
 double microbenchmark_get_div_latency() {
-    /* Implement your microbenchmark benchmark here */
     double cycles = 0.0;
     long num_runs = 1;
     double multiplier = 1;
@@ -340,6 +332,7 @@ double microbenchmark_get_div_latency() {
       while(num_runs < (1 << 14)) {
         start = start_tsc();
         for (int i = 0; i < num_runs; ++i) {
+            // Find the minimum division latency
             cheapDivisionLatency();
         }
         cycles = stop_tsc(start);
@@ -353,6 +346,8 @@ double microbenchmark_get_div_latency() {
         start = start_tsc();
         for (int i = 0; i < num_runs; ++i) {
             divisionLatency();
+            
+            // Reset value to a non zero value to find the maximum division latency
             divRes = 12345.122;
         }
         cycles = stop_tsc(start);
@@ -369,6 +364,7 @@ double microbenchmark_get_div_latency() {
       for (size_t j = 0; j < REP; j++) {
         start = start_tsc();
         for (int i = 0; i < num_runs; ++i) {
+            // Find the minimum division latency
             cheapDivisionLatency();
         }
         end = stop_tsc(start);
@@ -380,6 +376,8 @@ double microbenchmark_get_div_latency() {
         start = start_tsc();
         for (int i = 0; i < num_runs; ++i) {
             divisionLatency();
+            
+            // Reset value to a non zero value to find the maximum division latency
             divRes = 12345.122;
         }
         end = stop_tsc(start);
@@ -429,7 +427,6 @@ double microbenchmark_get_div_gap() {
 }
 
 double microbenchmark_get_foo_latency() {
-    /* Implement your microbenchmark benchmark here */
     double cycles = 0.0;
     long num_runs = 1;
     double multiplier = 1;
@@ -440,7 +437,6 @@ double microbenchmark_get_foo_latency() {
         start = start_tsc();
         for (int i = 0; i < num_runs; ++i) {
           fooLatency();
-          //fooRes = 2133113.3213;
         }
         cycles = stop_tsc(start);
 
@@ -455,14 +451,12 @@ double microbenchmark_get_foo_latency() {
       start = start_tsc();
       for (int i = 0; i < num_runs; ++i) {
         fooLatency();
-        //fooRes = 2133113.3213;
       }
       end = stop_tsc(start);
       cycles = ((double)end) / (num_runs * ARRAY_SIZE);
       total_cycles += cycles;
     }
     
-    //free(array);
     return total_cycles / REP;
 }
 
@@ -498,7 +492,6 @@ double microbenchmark_get_foo_gap() {
       total_cycles += cycles;
     }
     
-    //free(array);
     double gap = (total_cycles / REP) / ARRAY_SIZE;
     return gap;
 }
