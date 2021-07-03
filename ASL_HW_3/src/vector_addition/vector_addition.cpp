@@ -19,104 +19,15 @@ void slow_performance1(vector_t x, vector_t y, vector_t z, int n) {
       z.val[n] += fabs(x.val[i]);
     }
   }
-  //printf("%f %d %d %f %f %d %d\n", z.val[1024], z.id[0], n, x.val[0], y.val[0] , x.id[0], y.id[0]);
-}
-
-void slow_performance2(vector_t x, vector_t y, vector_t z, int n) {
-  int i;
-  __m256d xValv, yValv, zValv;
-  __m256d mxValv, myValv;//, xFabs, yFabs;
-  __m256d xAnd, yAndNot, xFabAdd, yFabAdd, newAddVals;
-  __m256d idNotEqRes, idEqRes;
-  __m256i xIdv, yIdv, zIdv;
-  __m256d xIdvd, yIdvd, zIdvd;
-  
-  __m256d idCmp, fabCmp;
-  
-  //__m256d mOnes = _mm256_set1_pd(-1.0);
-  //__m256d zeros = _mm256_set1_pd(0.0);
-  __m256d totSum = _mm256_set1_pd(0.0);
-  __m256d maskAbs = _mm256_castsi256_pd(_mm256_set1_epi64x(0x7FFFFFFFFFFFFFFF));
-  // set float vector to -1
-  for (i = 0; i < n - 3; i+=4) {
-    // load y id 
-    // load z id 
-    // compare for their equality, store in new vector
-    xIdv = _mm256_load_si256((__m256i *) (x.id + i));//_mm256_load_pd(x.id + i);
-    yIdv = _mm256_load_si256((__m256i *) (y.id + i));//_mm256_load_pd(y.id + i);
-    xIdvd = _mm256_castsi256_pd(xIdv);
-    yIdvd = _mm256_castsi256_pd(yIdv);
-    idCmp = _mm256_cmp_pd(xIdvd, yIdvd, _CMP_EQ_OQ);
-    
-    // If Ids aren't equal
-    /*---------------------------------------------------*/
-    xValv = _mm256_load_pd(x.val + i);
-    yValv = _mm256_load_pd(y.val + i);
-    
-    mxValv = _mm256_and_pd(xValv, maskAbs);//_mm256_mul_pd( xValv, mOnes);
-    myValv = _mm256_and_pd(yValv, maskAbs);//_mm256_mul_pd( yValv, mOnes);
-    
-    //xFabs = _mm256_max_pd(xValv, mxValv);
-    //yFabs = _mm256_max_pd(yValv, myValv);
-    
-    fabCmp = _mm256_cmp_pd(mxValv, myValv, _CMP_GT_OQ);
-    xAnd = _mm256_and_pd(xValv, fabCmp);
-    yFabAdd = _mm256_and_pd(myValv, fabCmp); // abs value to be added
-    xIdvd = _mm256_and_pd(xIdvd, fabCmp);
-    yAndNot = _mm256_andnot_pd(yValv, fabCmp);
-    xFabAdd = _mm256_andnot_pd(mxValv, fabCmp); // abs value to be added
-    yIdvd = _mm256_andnot_pd(yIdvd, fabCmp);
-    idNotEqRes = _mm256_or_pd(xAnd, yAndNot);
-    newAddVals = _mm256_or_pd(xFabAdd, yFabAdd);
-    zIdvd = _mm256_or_pd(xIdvd, yIdvd);
-    //totSum = _mm256_add_pd(totSum, newAddVals);
-    /*---------------------------------------------------*/
-    
-    idEqRes = _mm256_add_pd(xValv, yValv);
-    idNotEqRes = _mm256_andnot_pd(idCmp, idNotEqRes);
-    idEqRes = _mm256_and_pd(idCmp, idEqRes);
-    newAddVals = _mm256_andnot_pd(idCmp, newAddVals);
-    totSum = _mm256_add_pd(totSum, newAddVals);
-    _mm256_store_pd(z.val + i, _mm256_or_pd(idEqRes, idNotEqRes));
-    _mm256_store_si256((__m256i *)(z.id + i), _mm256_castpd_si256(zIdvd));
-    // load y vals
-    // load x vals
-    // multiply y vals and x vals with -1 vector and store it in new vectors
-    // apply max operation to x, -x & y, -y and store the result in new vector
-  }
-  double sum[4] = {0.0, 0.0, 0.0, 0.0};
-  _mm256_store_pd(sum, totSum);
-  z.val[n] = sum[0] + sum[1] + sum[2] + sum[3];
-  printf("%f %d\n", z.val[n], i);
-  for (; i < n; i++) {
-    if (x.id[i] == y.id[i]) {
-      z.val[i] = x.val[i] + y.val[i];
-      z.id[i]  = x.id[i];
-    }
-    else if (fabs(x.val[i]) > fabs(y.val[i])){
-      z.val[i]  = x.val[i];
-      z.id[i]   = x.id[i]; 
-      z.val[n] += fabs(y.val[i]);
-    }
-    else {
-      z.val[i]  = y.val[i];
-      z.id[i]   = y.id[i]; 
-      z.val[n] += fabs(x.val[i]);
-    }
-  }
-  // TODO: fix loop unrolling - z.val[n] isnt handled yet - selecting id and putting into z isn't handled yet
 }
 
 void slow_performance3(vector_t x, vector_t y, vector_t z, int n) {
-  /* This is the most optimized version. */
   int i;
   __m256d xValv, yValv;
   __m256d mxValv, myValv;
   __m256d xAnd, yAndNot, xFabAdd, yFabAdd, newAddVals;
   __m256d idNotEqRes, idEqRes;
   __m256i xIdv, yIdv, zIdv;
-  
-  
   
   __m256d idCmp, fabCmp;
   
@@ -163,9 +74,7 @@ void slow_performance3(vector_t x, vector_t y, vector_t z, int n) {
   double sum[4];
   _mm256_storeu_pd(sum, totSum);
   z.val[n] += sum[0] + sum[1] + sum[2] + sum[3];
-  /*for (int j = 0; j < 1; j++) {
-    printf("%f %f %f %f %d %d %d %d %f %f %f %f\n", z.val[n], x.val[j], y.val[j], z.val[j], x.id[j], y.id[j], z.id[j], sum[0], sum[1], sum[2], sum[3]);
-  }*/
+  
   for (; i < n; i++) {
     if (x.id[i] == y.id[i]) {
       z.val[i] = x.val[i] + y.val[i];
@@ -185,7 +94,6 @@ void slow_performance3(vector_t x, vector_t y, vector_t z, int n) {
 }
 
 void slow_performance4(vector_t x, vector_t y, vector_t z, int n) {
-  /* This is the most optimized version. */
   int i;
   __m256d xValv, yValv;
   __m256d mxValv, myValv;
@@ -386,9 +294,7 @@ void slow_performance4(vector_t x, vector_t y, vector_t z, int n) {
   z.val[n] += sum[0] + sum[1] + sum[2] + sum[3];
   _mm256_storeu_pd(sum, totSum4);
   z.val[n] += sum[0] + sum[1] + sum[2] + sum[3];
-  /*for (int j = 0; j < 1; j++) {
-    printf("%f %f %f %f %d %d %d %d %f %f %f %f\n", z.val[n], x.val[j], y.val[j], z.val[j], x.id[j], y.id[j], z.id[j], sum[0], sum[1], sum[2], sum[3]);
-  }*/
+
   for (; i < n; i++) {
     if (x.id[i] == y.id[i]) {
       z.val[i] = x.val[i] + y.val[i];
@@ -408,7 +314,6 @@ void slow_performance4(vector_t x, vector_t y, vector_t z, int n) {
 }
 
 void maxperformance(vector_t x, vector_t y, vector_t z, int n) {
-  /* This is the most optimized version. */
   int i;
   __m256d xValv, yValv;
   __m256d mxValv, myValv;
