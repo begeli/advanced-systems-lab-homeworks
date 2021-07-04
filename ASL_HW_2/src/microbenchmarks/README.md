@@ -10,4 +10,4 @@ Measured div gap     (min) :  3.99584 [cyc]   Correct!\
 Measured foo latency       :  18.0382 [cyc]   Correct!\
 Measured foo gap           :  4.00884 [cyc]   Correct!\
 Measured foo latency (min) :  17.0362 [cyc]   Correct!\
-Measured foo gap     (min) :  4.00876 [cyc]   Correct!\
+Measured foo gap     (min) :  4.00876 [cyc]   Correct!
