@@ -1,6 +1,6 @@
 # Output of the Microbenchmarks
 
-Benchmarking Results for latency and gap in Skylake Architecture:
+Benchmarking Results for latency and gap in Skylake Architecture:\
 Measured add latency       :  **3.92324 [cyc]**   Correct!\
 Measured add gap           : **0.498121 [cyc]**   Correct!\
 Measured div latency       :  **13.9248 [cyc]**   Correct!\
