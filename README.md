@@ -10,7 +10,7 @@ My solutions for ETH Zurich Advanced Systems Lab homeworks. Homeworks were about
 
 **Homework 3:** Vectorization with Intel AVX intrinsics (Optimizing FIR filters, vector addition and complex conversion)
 
-* The vector implementation of FIR filters managed to speedup the _optimized_ implementation by **2.666** times
-* The vector implementation of vector addition managed to speedup the _optimized_ implementation by **3.568** times
+* The vectorized implementation of FIR filters managed to speedup the _optimized_ implementation by **2.666** times
+* The vectorized implementation of vector addition managed to speedup the _optimized_ implementation by **3.568** times
 
 **Homework 4:** Cache Associativity, Cachme Miss Analysis, Roofline Models
