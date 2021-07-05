@@ -14,3 +14,8 @@ My solutions for ETH Zurich Advanced Systems Lab homeworks. Homeworks were about
 * The vectorized implementation of vector addition managed to speedup the _optimized_ implementation by **3.568** times
 
 **Homework 4:** Cache Associativity, Cachme Miss Analysis, Roofline Models
+
+## Homework platform
+
+All the code was optimized for the `Intel Xeon Silver 4210 Processor`. The platform I tested the code on compiled the code using `GCC 8.3.1` and flags 
+`-O3 -fno-tree-vectorize -march=skylake`.
